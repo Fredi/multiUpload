@@ -1,0 +1,46 @@
+<html>
+
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<title>Simple multiple selection upload - Multiple Upload</title>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript" src="../../js/uploader.js"></script>
+	
+	<script type="text/javascript">
+		var uploader = new Uploader('uploader', 'uploader_files', {
+			swf:            '../../swf/upload.swf',
+			script:         '../upload.php',
+			expressInstall: '../../swf/expressInstall.swf'
+		});
+	</script>
+
+	<style type="text/css">
+		@import "../_css/style.css";
+	</style>
+
+</head>
+
+<body>
+
+	<h1>Multiple Upload</h1>
+	<p>
+		<strong>Fredi Machado</strong> &lt;fredisoft at gmail dot com&gt;<br />
+		<a href="http://fredimachado.com.br" target="_blank">http://fredimachado.com.br</a><br /><br />
+		&lt; <a href="../">Return to examples</a><br /><br />
+	</h4>
+
+	<div id="uploader"></div>
+
+	<div id="uploader_files"></div>
+
+	<br style="clear:both" />
+
+	<a href="javascript:uploader.startUpload();">Start Upload</a> | <a href="javascript:uploader.clearUploadQueue();">Clear Upload Queue</a>
+
+</body>
+
+</html>

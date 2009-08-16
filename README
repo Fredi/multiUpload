@@ -1,0 +1,13 @@
+Multiple Uploader
+
+Developed by Fredi Machado <fredisoft at gmail dot com>
+http://fredimachado.com.br
+
+  This is a nice code to help you make multiple selectable file
+  uploads very easy. It uses the power of ActionScript 3 and Flash
+  Player 9 to allow multiple selection of files, Javascript to easy
+  integration with your website and server side scripting to process
+  uploaded files in the server. This was inspired by the Orkut method
+  of uploading album photos.
+
+Documentation and more examples coming soon.
