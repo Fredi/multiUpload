@@ -21,7 +21,6 @@ package
 		private var fileIDs:Dictionary; // IDs of each file
 		private var fileRef:FileReference; // Reference of single file
 		private var fileRefList:FileReferenceList; // Multi select file references
-		private var types:Array; // Filetypes allowed
 		private var vars:URLVariables; // Vars to send to the upload script
 		private var active:String = "";
 
@@ -37,14 +36,13 @@ package
 		static public const UPLOAD_ALL_COMPLETE:String = "onAllComplete";		// When all uploads from the queue are completed
 		static public const UPLOAD_QUEUE_CLEAR:String  = "onClearQueue";		// When the queue is cleared
 
-		public function Uploader()
+		public function multiUpload()
 		{
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.showDefaultContextMenu = false;
 
 			files       = {};
 			fileIDs     = new Dictionary();
-			types       = param.types;
 
 			stage.addEventListener(MouseEvent.CLICK, btnClick);
 
@@ -74,16 +72,14 @@ package
 		{
 			var i:int = 0;
 			var type:Object;
-			var filter:Array = [];
+			var filter:Array = new Array();
 
-			if (types)
+			if (param.desc != "" && param.ext != "")
 			{
-				while (i < types.length)
-				{
-					type = types[i];
-					filter[i] = new FileFilter(type.desc, type.ext);
-					i++;
-				}
+				var descriptions:Array = param.desc.split('|');
+				var extensions:Array = param.ext.split('|');
+				for (var n = 0; n < descriptions.length; n++)
+					filter.push(new FileFilter(descriptions[n], extensions[n]));
 			}
 
 			if (param.multi)

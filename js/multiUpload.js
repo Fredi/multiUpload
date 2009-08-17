@@ -53,7 +53,7 @@ function multiUpload(id, filesdiv, options)
 		var progress = Math.ceil(Number(e.bytesLoaded / e.bytesTotal * 100));
 		var div = document.getElementById("progress_"+e.id);
 		var val = String(progress)+"%";
-		div.innerHTML = val
+		div.innerHTML = val;
 		div.style.width = val;
 	}
 
@@ -87,7 +87,8 @@ function multiUpload(id, filesdiv, options)
 		method:            'POST', // method to send vars to the upload script
 		data:              {}, // data object to send with each upload. ex.: { foo: 'bar' }
 		maxsize:           0, // maximum file size in bytes (0 = any size)
-		allowedtypes:      [], // array of objects with 'desc' and 'ext' properties. ex.: [{desc: "JPG, GIF and PNG", ext: "*.jpg;*.jpeg;*.gif;*.png"}]
+		fileDescription:   '', // text to show in the combo box on the bottom of the selection window
+		fileExtensions:    '', // Extension to allow ex.: '*.jpg;*.gif;*.png'
 		createBaseHtml:    this.createBaseHtml, // Base html
 		onMouseClick:      function() {}, // function to execute when the user has clicked the uploader swf
 		onSelectionCancel: function() {}, // function to execute when the user presses "Cancel" in the selection window
@@ -98,7 +99,8 @@ function multiUpload(id, filesdiv, options)
 		onCancel:          this.onCancel, // function to execute when a file upload is canceled
 		onComplete:        function() {}, // function to execute when a file upload is complete
 		onAllComplete:     function() {}, // function to execute when every file from the queue was sent
-		onClearQueue:      this.onClearQueue // function to execute when the queue is cleared
+		onClearQueue:      this.onClearQueue, // function to execute when the queue is cleared
+		callback:          function() {} // function to execute when the swf object is embeded
 	}
 
 	this.op = mergeRecursive(this.op, options);
@@ -121,14 +123,13 @@ function multiUpload(id, filesdiv, options)
 	if (op.multi)  params.multi = true;
 	if (op.auto)   params.auto  = true;
 	params.maxsize = op.maxsize;
-
-	if (op.allowedtypes.length)
-		params.types   = op.allowedtypes;
+	params.desc    = op.fileDescription;
+	params.ext     = op.fileExtensions;
 
 	if (op.data)
 		params.scriptData = this.prepareData(op.data);
 	
-	swfobject.embedSWF(op.swf, id, op.width, op.height, '9.0.24', op.expressInstall, params, {'quality':'high','wmode':op.wmode,'allowScriptAccess':op.scriptAccess});
+	swfobject.embedSWF(op.swf, id, op.width, op.height, '9.0.24', op.expressInstall, params, {'quality':'high','wmode':op.wmode,'allowScriptAccess':op.scriptAccess}, null, op.callback);
 
 	this.el = function()
 	{
