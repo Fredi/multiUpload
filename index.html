@@ -1,0 +1,76 @@
+<html>
+
+<head>
+
+	<title>multiUpload</title>
+
+	<style type="text/css">
+		@import 'css/multiUpload.css';
+		h4, p { margin:0; padding:0; }
+	</style>
+
+</head>
+
+<body>
+
+	<h1>multiUpload</h1>
+	<p>
+		Developed by <strong>Fredi Machado</strong> &lt;fredisoft at gmail dot com&gt;<br />
+		<a href="http://fredimachado.com.br" target="_blank">http://fredimachado.com.br</a>
+	</h4>
+
+	<br /><br />
+
+	<p>
+		This is a nice code to help you make multiple selectable file
+		uploads very easy. It uses the power of ActionScript 3 and Flash
+		Player 9 to allow multiple selection of files, Javascript to easy
+		integration with your website and server side scripting to process
+		uploaded files in the server. This was inspired by the Orkut method
+		of uploading album photos.
+	</p>
+
+	<br />
+
+	<h4><a href="examples">Examples</a></h4>
+
+	<br />
+
+	<h4>Usage:</h4>
+
+	<p>First you have to add SWFObject and the base multiUpload class to the head tag of your page.</p>
+
+	<pre>&lt;script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="js/multiUpload.js"&gt;&lt;/script&gt;</pre>
+
+	<p>The next step is to create two divs with different id's, one will be the "Browse" button and the other will show file(s) selected and info.</p>
+
+	<pre>&lt;div id="uploader"&gt;&lt;/div&gt;
+&lt;div id="uploader_files"&gt;&lt;/div&gt;</pre>
+
+	<p>Now you have to create a new instance of the multiUpload base class with the "button" div id, file info div id and an object with some options respectively to do the magic.</p>
+
+	<pre>&lt;script type="text/javascript"&gt;
+	var uploader = new multiUpload('uploader', 'uploader_files', {
+		swf:            'swf/multiUpload.swf', // 
+		script:         'upload.php',
+		expressInstall: 'swf/expressInstall.swf',
+		multi:          true
+	});
+&lt;/script&gt;</pre>
+
+	<p>Finally, add the actions</p>
+
+	<pre>&lt;a href="javascript:uploader.startUpload();"&gt;Start Upload&lt;/a&gt; | &lt;a href="javascript:uploader.clearUploadQueue();"&gt;Clear Upload Queue&lt;/a&gt;</pre>
+
+	<p>To make it nice just use the multiUpload default stylesheet</p>
+
+	<pre>&lt;style type="text/css"&gt;
+	@import "css/multiUpload.css";
+&lt;/style&gt;</pre>
+
+	<h4><a href="examples">Examples</a></h4>
+
+</body>
+
+</html>

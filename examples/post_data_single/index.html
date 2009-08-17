@@ -4,7 +4,7 @@
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-	<title>Simple multiple selection upload - multiUpload</title>
+	<title>Post data + Single file selection upload - multiUpload</title>
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
 	<script type="text/javascript" src="../../js/multiUpload.js"></script>
@@ -12,10 +12,25 @@
 	<script type="text/javascript">
 		var uploader = new multiUpload('uploader', 'uploader_files', {
 			swf:            '../../swf/multiUpload.swf',
-			script:         '../upload.php',
+			script:         'upload.php',
 			expressInstall: '../../swf/expressInstall.swf',
-			multi:          true
+			multi:          false
 		});
+
+		function sendIt()
+		{
+			var name = document.getElementById("txtName").value;
+
+			if (name.length)
+			{
+				uploader.setData({
+					Name: name
+				});
+				uploader.startUpload();
+			}
+			else
+				alert("Type the file name.");
+		}
 	</script>
 
 	<style type="text/css">
@@ -26,7 +41,7 @@
 
 <body>
 
-	<h1>Simple multiple selection upload - multiUpload</h1>
+	<h1>Post data + Single file selection upload - multiUpload</h1>
 
 	<p>&lt; <a href="../">Return to examples</a></p>
 
@@ -36,7 +51,11 @@
 
 	<br style="clear:both" />
 
-	<a href="javascript:uploader.startUpload();">Start Upload</a> | <a href="javascript:uploader.clearUploadQueue();">Clear Upload Queue</a>
+	File name: <input type="text" size="20" name="Name" id="txtName" value="test.jpg" />
+
+	<br />
+
+	<a href="javascript:sendIt();">Start Upload</a> | <a href="javascript:uploader.clearUploadQueue();">Clear Upload Queue</a>
 
 	<br />
 
@@ -44,10 +63,25 @@
 
 	<pre>var uploader = new multiUpload('uploader', 'uploader_files', {
 	swf:            '../../swf/multiUpload.swf',
-	script:         '../upload.php',
+	script:         'upload.php',
 	expressInstall: '../../swf/expressInstall.swf',
-	multi:          true
-});</pre>
+	multi:          false
+});
+
+function sendIt()
+{
+	var name = document.getElementById("txtName").value;
+
+	if (name.length)
+	{
+		uploader.setData({
+			Name: name
+		});
+		uploader.startUpload();
+	}
+	else
+		alert("Type the file name.");
+}</pre>
 
 </body>
 

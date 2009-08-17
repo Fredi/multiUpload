@@ -1,12 +1,12 @@
 /**
- * Multiple Uploader v0.1
+ * Multiple Uploader v0.2
  * 
  * @author Fredi Machado <fredisoft at gmail dot com>
  * @link http://fredimachado.com.br
  * @date 08/16/2009
  **/
 
-function Uploader(id, filesdiv, options)
+function multiUpload(id, filesdiv, options)
 {
 	/**
 	 * Default function to create the base html that will show files
@@ -65,6 +65,14 @@ function Uploader(id, filesdiv, options)
 		document.getElementById("files_list").innerHTML = "";
 	}
 
+	this.prepareData = function(data)
+	{
+		var strData = '';
+		for (var name in data)
+			strData += '&' + name + '=' + data[name];
+		return escape(strData.substr(1));
+	}
+
 	/**
 	 * Default options
 	 */
@@ -78,8 +86,6 @@ function Uploader(id, filesdiv, options)
 		wmode:             'opaque', // flash button wmode
 		method:            'POST', // method to send vars to the upload script
 		data:              {}, // data object to send with each upload. ex.: { foo: 'bar' }
-		multi:             true, // multiple file selection
-		auto:              false, // start sending files after selection
 		maxsize:           0, // maximum file size in bytes (0 = any size)
 		allowedtypes:      [], // array of objects with 'desc' and 'ext' properties. ex.: [{desc: "JPG, GIF and PNG", ext: "*.jpg;*.jpeg;*.gif;*.png"}]
 		createBaseHtml:    this.createBaseHtml, // Base html
@@ -112,20 +118,15 @@ function Uploader(id, filesdiv, options)
 	params.path    = path;
 	params.script  = op.script;
 	params.method  = op.method;
-	params.multi   = op.multi;
-	params.auto    = op.auto;
+	if (op.multi)  params.multi = true;
+	if (op.auto)   params.auto  = true;
 	params.maxsize = op.maxsize;
 
 	if (op.allowedtypes.length)
 		params.types   = op.allowedtypes;
 
 	if (op.data)
-	{
-		var strData = '';
-		for (var name in op.data)
-			strData += '&' + name + '=' + op.data[name];
-		params.scriptData = escape(strData.substr(1));
-	}
+		params.scriptData = this.prepareData(op.data);
 	
 	swfobject.embedSWF(op.swf, id, op.width, op.height, '9.0.24', op.expressInstall, params, {'quality':'high','wmode':op.wmode,'allowScriptAccess':op.scriptAccess});
 
@@ -136,8 +137,7 @@ function Uploader(id, filesdiv, options)
 
 	this.setData = function(data)
 	{
-		for (prop in data)
-			this.op.data[prop] = data[prop];
+		this.el().setData(this.prepareData(data));
 	}
 
 	this.startUpload = function()

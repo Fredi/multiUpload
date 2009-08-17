@@ -13,7 +13,7 @@ package
 	import flash.net.*;
 	import flash.utils.*;
 
-	public class Uploader extends Sprite
+	public class multiUpload extends Sprite
 	{
 		private var param:Object = LoaderInfo(parent.loaderInfo).parameters;
 		private var counter:Number = 0;
@@ -45,10 +45,6 @@ package
 			files       = {};
 			fileIDs     = new Dictionary();
 			types       = param.types;
-
-			fileRefList = new FileReferenceList();
-			fileRefList.addEventListener(Event.SELECT, triggerJS);
-			fileRefList.addEventListener(Event.CANCEL, triggerJS);
 
 			stage.addEventListener(MouseEvent.CLICK, btnClick);
 
@@ -91,7 +87,13 @@ package
 			}
 
 			if (param.multi)
+			{
+				fileRefList = new FileReferenceList();
+				fileRefList.addEventListener(Event.SELECT, triggerJS);
+				fileRefList.addEventListener(Event.CANCEL, triggerJS);
+
 				return filter.length ? fileRefList.browse(filter) : fileRefList.browse();
+			}
 			else
 			{
 				fileRef = new FileReference();
@@ -164,7 +166,7 @@ package
 
 		private function addFiles(objFiles:Object):Array
 		{
-			var ret:Array;
+			var ret:Array = new Array();
 			var i:int = 0;
 
 			if (objFiles is FileReference)
@@ -280,7 +282,7 @@ package
 
 		public function setData(variables:String):void
 		{
-			param.data = variables;
+			param.scriptData = variables;
 		}
 
 		private function triggerJS(e:Object):void
@@ -303,7 +305,7 @@ package
 					ret.type  = FILES_SELECT;
 					fArr      = addFiles(e.target);
 					ret.files = getFiles(fArr);
-					if (param.auto == true)
+					if (param.auto)
 						startUpload();
 					break;
 				}
