@@ -1,9 +1,9 @@
 /**
- * Multiple Uploader v0.2
+ * Multiple Uploader v0.3
  * 
  * @author Fredi Machado <fredisoft at gmail dot com>
  * @link http://fredimachado.com.br
- * @date 08/16/2009
+ * @date 08/17/2009
  **/
 
 function multiUpload(id, filesdiv, options)
