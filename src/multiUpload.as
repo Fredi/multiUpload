@@ -352,7 +352,7 @@ package
 				case "fileSize":
 				{
 					ret.type = UPLOAD_ERROR;
-					ret.info = "File size exceeded";
+					ret.info = "This file exceeded the maximum size allowed.";
 					delete files[id];
 					startUpload(true);
 					break;

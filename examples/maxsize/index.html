@@ -1,0 +1,68 @@
+<html>
+
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<title>Limit maximum file size to upload - multiUpload</title>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript" src="../../js/multiUpload.js"></script>
+	
+	<script type="text/javascript">
+		var uploader = new multiUpload('uploader', 'uploader_files', {
+			swf:            '../../swf/multiUpload.swf',
+			script:         '../upload.php',
+			expressInstall: '../../swf/expressInstall.swf',
+			multi:          true,
+			maxsize:        209715, // Allow a maximum of 200 KB per file
+			onError:        function(e) {
+				var div = document.getElementById("progress_"+e.id);
+				div.innerHTML = e.info;
+				div.style.backgroundColor = "#770000";
+				div.style.width = "100%";
+			}
+		});
+	</script>
+
+	<style type="text/css">
+		@import "../../css/multiUpload.css";
+	</style>
+
+</head>
+
+<body>
+
+	<h1>Limit maximum file size to upload - multiUpload</h1>
+
+	<p>&lt; <a href="../">Return to examples</a></p>
+
+	<div id="uploader"></div>
+
+	<div id="uploader_files"></div>
+
+	<br style="clear:both" />
+
+	<a href="javascript:uploader.startUpload();">Start Upload</a> | <a href="javascript:uploader.clearUploadQueue();">Clear Upload Queue</a>
+
+	<br />
+
+	<h4>Code:</h4>
+
+	<pre>var uploader = new multiUpload('uploader', 'uploader_files', {
+	swf:            '../../swf/multiUpload.swf',
+	script:         '../upload.php',
+	expressInstall: '../../swf/expressInstall.swf',
+	multi:          true,
+	maxsize:        209715, // Allow a maximum of 200 KB per file
+	onError:        function(e) {
+		var div = document.getElementById("progress_"+e.id);
+		div.innerHTML = e.info;
+		div.style.backgroundColor = "#770000";
+		div.style.width = "100%";
+	}
+});</pre>
+
+</body>
+
+</html>
