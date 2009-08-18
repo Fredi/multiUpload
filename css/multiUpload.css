@@ -13,9 +13,9 @@
 
 .progress div {
 	background-color:#007700;
-	border-top:3px solid #fff;
-	border-bottom:3px solid #fff;
-	height:12px;
+	border-top:3px solid #FAFAFA;
+	border-bottom:3px solid #FAFAFA;
+	height:14px;
 	width:0%;
 	font-size:10px;
 	font-weight:700;
