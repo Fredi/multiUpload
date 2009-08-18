@@ -1,5 +1,5 @@
 /**
- * Multiple Uploader v0.3
+ * multiUpload v0.3
  * 
  * @author Fredi Machado <fredisoft at gmail dot com>
  * @link http://fredimachado.com.br
@@ -14,7 +14,7 @@ function multiUpload(id, filesdiv, options)
 	this.createBaseHtml = function()
 	{
 		html  = '<div><div class="c30p bold">File</div><div class="c100 ac bold">Size</div>';
-		html += '<div class="c100 ac bold">Remove</div><div class="c30p bold">Progress</div></div>';
+		html += '<div class="c100 ac bold">Remove</div><div class="c30p bold">Progress</div></div><div class="sep"></div>';
 		html += '<div id="files_list"></div>';
 
 		document.getElementById(filesdiv).innerHTML = html;

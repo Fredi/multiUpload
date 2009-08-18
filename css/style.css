@@ -1,0 +1,16 @@
+/**
+ * Base Stylesheet of multiUpload html documentation
+ * Doesn't need to be used in your projects
+ */
+
+div, p, span, a, input { font-family:'Lucida Sans Unicode','Lucida Sans','Trebuchet MS'; }
+h1, h2, h3, h4 { font-family:Georgia,'Trebuchet MS'; font-weight:normal; }
+div, p, span, a, input { font-size:10pt; }
+h1 { font-size: 18pt; }
+h2 { font-size: 15pt; }
+h4 { font-weight:700; }
+a { color:#660000; }
+a:hover { color:#BB0000; }
+h4, p { margin:0; padding:0; }
+
+#uploader { margin-bottom:8px;}
