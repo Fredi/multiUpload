@@ -1,0 +1,198 @@
+<html>
+
+<head>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<title>Photo Album 2 - multiUpload</title>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+	<script type="text/javascript" src="../../js/multiUpload.js"></script>
+	
+	<script type="text/javascript">
+		var uploader = "";
+
+		$(function() {
+			$("#album").submit(function() {
+				// Don't continue if the it's already an object
+				if (typeof uploader == "object")
+					return false;
+
+				var data = $(this).serialize(); // Album's form data
+
+				$(":text,textarea").attr("disabled", "disabled"); // Disable texts
+
+				// Sends the form using Ajax
+				$.ajax({
+					type: "POST",
+					url: "savealbum.php",
+					data: data,
+					cache: false,
+					dataType: "json",
+					success: function(json)
+					{
+						if (json.id > 0) // If it gets an id then the album was saved
+						{
+							// Create the multiUpload instance
+							uploader = new multiUpload('uploader', 'uploader_files', {
+								swf:             '../../swf/multiUpload.swf',
+								script:          'upload.php',
+								expressInstall:  '../../swf/expressInstall.swf',
+								multi:           true,
+								data:            json, // Sends the json data returned by savealbum.php (with id of the album)
+								fileDescription: 'JPEG Images',
+								fileExtensions:  '*.jpg;*.jpeg',
+								onComplete:      function(e)
+								{
+									var id = e.data; // The returned id
+									var file = $("#file_"+e.id+" div:first").text(); // Filename
+									var ext = file.split('.').pop(); // File extension
+									var thumb = file.replace('.'+ext, '_thumb.'+ext); // Thumb
+									var $caption = $('<div class="caption" rel="'+id+'"><input type="text" name="Caption" value="Image caption" /></div>');
+									var $button = $('<input type="button" value="Save" class="save" />').click(function() {
+										$.post("savecaption.php", { id: $(this).parent().attr("rel"), caption: $(this).prev().val() }, function(data){
+											$caption.html('<strong>'+data+'</strong>');
+										});
+									});
+									$("#file_"+e.id+" div:first").prepend('<img src="../../uploads/'+thumb+'" width="64" height="48" />')
+										.append($caption.append($button));
+								}
+							});
+
+							// Creates the base html (files information and progressbar)
+							uploader.createBaseHtml();
+
+							// Show actions (start upload and clear all queue)
+							$(".upload_actions").show();
+						}
+						else // This means that the album was no saved
+						{
+							$(":text,textarea").removeAttr("disabled"); // Enable texts again
+							alert(json.msg); // Show the error message
+						}
+					}
+				});
+
+				return false; // Prevent sending the html form
+			});
+
+			$(":text,textarea").removeAttr("disabled");
+		});
+	</script>
+
+	<style type="text/css">
+		@import "../../css/multiUpload.css";
+		@import '../../css/style.css';
+	</style>
+
+</head>
+
+<body>
+
+	<h1>Photo Album 2 - multiUpload</h1>
+
+	<p>&lt; <a href="../">Return to examples</a></p>
+
+	<br />
+
+	<h4>New Album</h4>
+
+	<br />
+
+	<form method="post" action="savealbum.php" id="album">
+
+		<label>Title:</label> <input type="text" name="title" size="25" maxlength="50" />
+
+		<label>Description:</label> <textarea name="description" rows="5" cols="25"></textarea>
+
+		<br /><br />
+
+		<input type="submit" value="SAVE" />
+
+	</form>
+
+	<div id="uploader"></div>
+
+	<div id="uploader_files"></div>
+
+	<br style="clear:both" />
+
+	<div class="upload_actions"><a href="javascript:uploader.startUpload();">Start Upload</a> | <a href="javascript:uploader.clearUploadQueue();">Clear Upload Queue</a> | <a href="./">New Album</a></div>
+
+	<br /><br />
+
+	<h4>Code:</h4>
+
+	<pre>var uploader = "";
+
+$(function() {
+	$("#album").submit(function() {
+		// Don't continue if the it's already an object
+		if (typeof uploader == "object")
+			return false;
+
+		var data = $(this).serialize(); // Album's form data
+
+		$(":text,textarea").attr("disabled", "disabled"); // Disable texts
+
+		// Sends the form using Ajax
+		$.ajax({
+			type: "POST",
+			url: "savealbum.php",
+			data: data,
+			cache: false,
+			dataType: "json",
+			success: function(json)
+			{
+				if (json.id > 0) // If it gets an id then the album was saved
+				{
+					// Create the multiUpload instance
+					uploader = new multiUpload('uploader', 'uploader_files', {
+						swf:             '../../swf/multiUpload.swf',
+						script:          'upload.php',
+						expressInstall:  '../../swf/expressInstall.swf',
+						multi:           true,
+						data:            json, // Sends the json data returned by savealbum.php (with id of the album)
+						fileDescription: 'JPEG Images',
+						fileExtensions:  '*.jpg;*.jpeg',
+						onComplete:      function(e)
+						{
+							var id = e.data; // The returned id
+							var file = $("#file_"+e.id+" div:first").text(); // Filename
+							var ext = file.split('.').pop(); // File extension
+							var thumb = file.replace('.'+ext, '_thumb.'+ext); // Thumb
+							var $caption = $('&lt;div class="caption" rel="'+id+'"&gt;&lt;input type="text" name="Caption" value="Image caption" /&gt;&lt;/div&gt;');
+							var $button = $('&lt;input type="button" value="Save" class="save" /&gt;').click(function() {
+								$.post("savecaption.php", { id: $(this).parent().attr("rel"), caption: $(this).prev().val() }, function(data){
+									$caption.html('&lt;strong&gt;'+data+'&lt;/strong&gt;');
+								});
+							});
+							$("#file_"+e.id+" div:first").prepend('&lt;img src="../../uploads/'+thumb+'" width="64" height="48" />')
+								.append($caption.append($button));
+						}
+					});
+
+					// Creates the base html (files information and progressbar)
+					uploader.createBaseHtml();
+
+					// Show actions (start upload and clear all queue)
+					$(".upload_actions").show();
+				}
+				else // This means that the album was no saved
+				{
+					$(":text,textarea").removeAttr("disabled"); // Enable texts again
+					alert(json.msg); // Show the error message
+				}
+			}
+		});
+
+		return false; // Prevent sending the html form
+	});
+
+	$(":text,textarea").removeAttr("disabled");
+});</pre>
+
+</body>
+
+</html>

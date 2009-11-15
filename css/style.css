@@ -16,3 +16,5 @@ label { display:block; }
 .upload_actions { display:none; }
 
 #uploader { margin-bottom:8px;}
+
+#files_list img {float:left; margin-right:6px;}
