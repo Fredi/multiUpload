@@ -25,8 +25,15 @@ function multiUpload(id, filesdiv, options)
 	 **/
 	this.onSelected = function(e)
 	{
+		var maxfiles = Number(op.maxfiles);
+		var count = 0;
 		for (var file in e.files)
 		{
+			if (maxfiles > 0 && count++ == maxfiles)
+			{
+				alert(op.maxfilesError);
+				break;
+			}
 			var info = e.files[file];
 			var divfile = document.createElement("div");
 			divfile.id = "file_"+info.id;
@@ -87,6 +94,8 @@ function multiUpload(id, filesdiv, options)
 		method:            'POST', // method to send vars to the upload script
 		data:              {}, // data object to send with each upload. ex.: { foo: 'bar' }
 		maxsize:           0, // maximum file size in bytes (0 = any size)
+		maxfiles:          0, // maximum number of files allowed (0 = no limit)
+		maxfilesError:     'You cant add more files', // error message when maximum number of files exceeded
 		fileDescription:   '', // text to show in the combo box on the bottom of the selection window
 		fileExtensions:    '', // Extension to allow ex.: '*.jpg;*.gif;*.png'
 		createBaseHtml:    this.createBaseHtml, // Base html
