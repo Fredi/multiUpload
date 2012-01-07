@@ -26,10 +26,9 @@ function multiUpload(id, filesdiv, options)
 	this.onSelected = function(e)
 	{
 		var maxfiles = Number(op.maxfiles);
-		var count = 0;
 		for (var file in e.files)
 		{
-			if (maxfiles > 0 && count++ == maxfiles)
+			if (maxfiles > 0 && count++ >= maxfiles)
 			{
 				alert(op.maxfilesError);
 				break;
@@ -115,6 +114,7 @@ function multiUpload(id, filesdiv, options)
 	this.op = mergeRecursive(this.op, options);
 
 	var op = this.op;
+	var count = 0;
 
 	DOMReady(function() { op.createBaseHtml(); });
 
